@@ -1,0 +1,104 @@
+{
+  "schema_version": "llm_windtower_benchmark_manifest_v1",
+  "declaration": "SYNTHETIC BENCHMARK / 非真实设计 / NOT FOR ENGINEERING DESIGN OR SAFETY ASSESSMENT",
+  "case_count": 10,
+  "reference_files": {
+    "synthetic_standard_tower.xlsx": "f335a2e26521d2e070be66129c2859ab35f62390674e708d06ad17fbdcfdf4e3",
+    "synthetic_mechanical_interface_FEM.xls": "2dfa08ff420d9c9e08417d6075a150549073009026cacbe9f3d152ecf8630a0b"
+  },
+  "alphas": [
+    0.05,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55,
+    0.65,
+    0.75,
+    0.85,
+    0.95
+  ],
+  "data_origin": "fixed_fictional_synthetic_anchors_v1",
+  "cases": [
+    {
+      "case_id": "S01",
+      "alpha": 0.05,
+      "input": "inputs/S01_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S01_ground_truth.json",
+      "input_sha256": "35fd803a9d49819d8d5689fc45befe03d61f334dc951cd9bcd6a327e8c0b0a86",
+      "format_challenge": "bilingual_headers_m_cm_mm_kn"
+    },
+    {
+      "case_id": "S02",
+      "alpha": 0.15,
+      "input": "inputs/S02_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S02_ground_truth.json",
+      "input_sha256": "27ad46a9e0d0ccd4070fce066c35a21b8d9c9d5463f4fa94e446557b82851488",
+      "format_challenge": "english_aliases_shuffled_columns"
+    },
+    {
+      "case_id": "S03",
+      "alpha": 0.25,
+      "input": "inputs/S03_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S03_ground_truth.json",
+      "input_sha256": "9d25df23af7763743b41d1b5d3ad64f73df2773d3fca81e9960d265c569f24ff",
+      "format_challenge": "long_form_parameter_ledger"
+    },
+    {
+      "case_id": "S04",
+      "alpha": 0.35,
+      "input": "inputs/S04_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S04_ground_truth.json",
+      "input_sha256": "e258a0ca2829c809848409800dc99fcb2d026910c0610f4e29ec359fe43e93ea",
+      "format_challenge": "transposed_segment_table"
+    },
+    {
+      "case_id": "S05",
+      "alpha": 0.45,
+      "input": "inputs/S05_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S05_ground_truth.json",
+      "input_sha256": "3419f28a1048d6f42133297b2d731ee9ad4e0708c312715d26721142ffe8e3f3",
+      "format_challenge": "split_geometry_sheets"
+    },
+    {
+      "case_id": "S06",
+      "alpha": 0.55,
+      "input": "inputs/S06_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S06_ground_truth.json",
+      "input_sha256": "54c89dc40d6399c5c0c807d6f12fea50e8d0014d6c5b705dca57f1bf82271f89",
+      "format_challenge": "merged_titles_offset_headers"
+    },
+    {
+      "case_id": "S07",
+      "alpha": 0.65,
+      "input": "inputs/S07_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S07_ground_truth.json",
+      "input_sha256": "fbe70485c2c3f3b5452a3886cfe9b30bdada89615170f77f8296572a93614135",
+      "format_challenge": "mixed_units_by_column"
+    },
+    {
+      "case_id": "S08",
+      "alpha": 0.75,
+      "input": "inputs/S08_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S08_ground_truth.json",
+      "input_sha256": "ccfae2090eb62151aeee7b1de382827b485e52d05187a6d4bb49577bf60e6199",
+      "format_challenge": "narrative_notes_and_tables"
+    },
+    {
+      "case_id": "S09",
+      "alpha": 0.85,
+      "input": "inputs/S09_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S09_ground_truth.json",
+      "input_sha256": "7152810a6607316951457dc2e3357ddf4f630aae340becfd139a5336c3798c0d",
+      "format_challenge": "consistent_duplicate_summary"
+    },
+    {
+      "case_id": "S10",
+      "alpha": 0.95,
+      "input": "inputs/S10_heterogeneous_wind_tower.xlsx",
+      "ground_truth": "ground_truth/S10_ground_truth.json",
+      "input_sha256": "3e210ea97e618cf71fff07c89550efaec01c522c07acd861925d71c4ed695f30",
+      "format_challenge": "missing_defaultable_optional_fields"
+    }
+  ]
+}

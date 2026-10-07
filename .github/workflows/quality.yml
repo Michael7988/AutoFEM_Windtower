@@ -1,0 +1,56 @@
+name: backend-quality
+
+on:
+  push:
+    paths:
+      - "core/windtower_backend/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "requirements*.txt"
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install runtime and quality dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r core/windtower_backend/requirements.txt
+          python -m pip install -r requirements-quality.txt
+      - name: Static checks
+        run: python -m ruff check core/windtower_backend tests
+      - name: Fast deterministic tests
+        shell: pwsh
+        run: |
+          python -m pytest -q `
+            tests/test_api_security_and_uploads.py `
+            tests/test_metadata_persistence.py `
+            tests/test_ir_validation.py `
+            tests/test_output_contract.py `
+            tests/test_solver_queue.py
+
+  frontend:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: core/windtower-modeling-ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: core/windtower-modeling-ui/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run build

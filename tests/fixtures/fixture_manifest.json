@@ -1,0 +1,28 @@
+{
+  "schema_version": "windtower_synthetic_fixture_manifest_v1",
+  "generation_seed": 20260729,
+  "declaration": "SYNTHETIC TEST DATA / NOT FOR ENGINEERING DESIGN OR SAFETY ASSESSMENT",
+  "files": [
+    {
+      "path": "tests/fixtures/synthetic_standard_tower.xlsx",
+      "size_bytes": 12175,
+      "sha256": "f335a2e26521d2e070be66129c2859ab35f62390674e708d06ad17fbdcfdf4e3"
+    },
+    {
+      "path": "tests/fixtures/synthetic_mechanical_interface_FEM.xls",
+      "size_bytes": 13824,
+      "sha256": "c1a0edaa9c871a0c2ebcda873e7ff9290b4c9d4e7b45fbed27826697bcb321be"
+    },
+    {
+      "path": "tests/fixtures/synthetic_l0_ir.json",
+      "size_bytes": 1008224,
+      "sha256": "fb4ab21ac13dc82a9a71297ab7b1d9c84b97df0a1b399adab021be4428cb0680"
+    },
+    {
+      "path": "tests/fixtures/synthetic_l0_static.inp",
+      "size_bytes": 1364750,
+      "sha256": "c33a58f727f65daca5d634d3143462de9c8551de523dc4b83882d7750a4d9e45",
+      "semantic_sha256": "519bf299dfb1b269b3fb94325a48c79e5e00d26e28d2d0c77cdd6eb90ab18329"
+    }
+  ]
+}

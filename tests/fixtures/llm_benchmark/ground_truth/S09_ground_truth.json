@@ -1,0 +1,168 @@
+{
+  "schema_version": "standard_input_v1",
+  "source_file": "S09_heterogeneous_wind_tower.xlsx",
+  "input_format": "synthetic_llm_benchmark",
+  "unit_system": "mm-N-MPa-tonne",
+  "tower_segments": [
+    {
+      "segment_id": "SEG-01",
+      "z_bottom_mm": 0.0,
+      "z_top_mm": 10700.0,
+      "diameter_bottom_mm": 7480.0,
+      "diameter_top_mm": 7095.0,
+      "thickness_mm": 38.8
+    },
+    {
+      "segment_id": "SEG-02",
+      "z_bottom_mm": 10700.0,
+      "z_top_mm": 21400.0,
+      "diameter_bottom_mm": 7095.0,
+      "diameter_top_mm": 6710.0,
+      "thickness_mm": 36.0
+    },
+    {
+      "segment_id": "SEG-03",
+      "z_bottom_mm": 21400.0,
+      "z_top_mm": 32100.0,
+      "diameter_bottom_mm": 6710.0,
+      "diameter_top_mm": 6325.0,
+      "thickness_mm": 33.1
+    },
+    {
+      "segment_id": "SEG-04",
+      "z_bottom_mm": 32100.0,
+      "z_top_mm": 42800.0,
+      "diameter_bottom_mm": 6325.0,
+      "diameter_top_mm": 5940.0,
+      "thickness_mm": 30.2
+    },
+    {
+      "segment_id": "SEG-05",
+      "z_bottom_mm": 42800.0,
+      "z_top_mm": 53500.0,
+      "diameter_bottom_mm": 5940.0,
+      "diameter_top_mm": 5555.0,
+      "thickness_mm": 27.4
+    },
+    {
+      "segment_id": "SEG-06",
+      "z_bottom_mm": 53500.0,
+      "z_top_mm": 64200.0,
+      "diameter_bottom_mm": 5555.0,
+      "diameter_top_mm": 5170.0,
+      "thickness_mm": 24.6
+    },
+    {
+      "segment_id": "SEG-07",
+      "z_bottom_mm": 64200.0,
+      "z_top_mm": 74900.0,
+      "diameter_bottom_mm": 5170.0,
+      "diameter_top_mm": 4785.0,
+      "thickness_mm": 21.7
+    },
+    {
+      "segment_id": "SEG-08",
+      "z_bottom_mm": 74900.0,
+      "z_top_mm": 85600.0,
+      "diameter_bottom_mm": 4785.0,
+      "diameter_top_mm": 4400.0,
+      "thickness_mm": 19.7
+    },
+    {
+      "segment_id": "SEG-09",
+      "z_bottom_mm": 85600.0,
+      "z_top_mm": 96300.0,
+      "diameter_bottom_mm": 4400.0,
+      "diameter_top_mm": 4015.0,
+      "thickness_mm": 17.7
+    },
+    {
+      "segment_id": "SEG-10",
+      "z_bottom_mm": 96300.0,
+      "z_top_mm": 107000.0,
+      "diameter_bottom_mm": 4015.0,
+      "diameter_top_mm": 3630.0,
+      "thickness_mm": 15.7
+    }
+  ],
+  "door_opening": {
+    "enabled": true,
+    "shape": "rounded_rectangle",
+    "width_mm": 1270.0,
+    "height_mm": 2270.0,
+    "z_bottom_mm": 870.0,
+    "corner_radius_mm": 250.0,
+    "azimuth_deg": 0.0
+  },
+  "materials": [
+    {
+      "name": "S355",
+      "elastic_modulus_mpa": 210000.0,
+      "poisson_ratio": 0.3,
+      "density_tonne_mm3": 7.85e-09,
+      "yield_strength_mpa": 355.0
+    }
+  ],
+  "fem_settings": {
+    "material.name": "S355",
+    "material.elastic_modulus_mpa": 210000.0,
+    "material.poisson_ratio": 0.3,
+    "material.density_tonne_mm3": 7.85e-09,
+    "material.yield_strength_mpa": 355.0,
+    "section.type": "Shell Section",
+    "section.material": "S355",
+    "section.thickness_source": "tower_segments",
+    "element.element_type": "S4R",
+    "element.part_name": "SYNTHETIC_S09_TOWER",
+    "element.instance_name": "SYNTHETIC_S09_TOWER-1",
+    "mesh.strategy": "V3_CONFORMING_DOOR_MESH",
+    "mesh.global_size_mm": 650.0,
+    "mesh.door_size_mm": 120.0,
+    "sets_surfaces.base_set": "BASE_FIXED",
+    "sets_surfaces.top_set": "TOP_LOAD_NODES",
+    "sets_surfaces.door_set": "DOOR_OPENING_NODES",
+    "sets_surfaces.wind_surface": "WINDWARD_SURFACE",
+    "coupling.top_ring_enabled": true,
+    "boundary.name": "BASE_FIXED",
+    "boundary.target": "BASE_FIXED",
+    "boundary.dofs": "1,2,3,4,5,6",
+    "loads.top_total_force_n": 840000.0,
+    "loads.top_force_direction": 1,
+    "loads.top_mass_tonne": 377.5,
+    "loads.gravity_enabled": true,
+    "loads.gravity_acceleration_mm_s2": 9810.0,
+    "loads.wind_pressure_mpa": 0.001325,
+    "loads.wind_surface": "WINDWARD_SURFACE",
+    "steps.STEP-1-TOP-REACTION": "Apply gravity and top equivalent mass reaction preload",
+    "steps.STEP-2-WIND-PRESSURE": "Apply tower wind pressure and top horizontal thrust",
+    "steps.nlgeom": "NO",
+    "modal.modes": 20,
+    "outputs.field": [
+      "U",
+      "RF",
+      "S",
+      "E"
+    ]
+  },
+  "flanges": [],
+  "analysis": {
+    "static_strength": true,
+    "modal": true,
+    "modal_modes": 20,
+    "buckling": false
+  },
+  "benchmark": {
+    "case_id": "S09",
+    "alpha": 0.85,
+    "declaration": "SYNTHETIC BENCHMARK / 非真实设计 / NOT FOR ENGINEERING DESIGN OR SAFETY ASSESSMENT",
+    "data_origin": "fixed_fictional_synthetic_anchors_v1",
+    "basis": "Convex interpolation between two fixed fictional tower profiles created only for software testing.",
+    "reference_sha256": {
+      "synthetic_standard_tower.xlsx": "f335a2e26521d2e070be66129c2859ab35f62390674e708d06ad17fbdcfdf4e3",
+      "synthetic_mechanical_interface_FEM.xls": "2dfa08ff420d9c9e08417d6075a150549073009026cacbe9f3d152ecf8630a0b"
+    },
+    "formula": "P_i=(1-alpha_i)*AnchorA+alpha_i*AnchorB; alpha_i=0.05+0.10*(i-1)",
+    "workbook": "inputs/S09_heterogeneous_wind_tower.xlsx",
+    "workbook_sha256": "7152810a6607316951457dc2e3357ddf4f630aae340becfd139a5336c3798c0d"
+  }
+}

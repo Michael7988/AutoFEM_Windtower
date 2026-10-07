@@ -1,0 +1,46 @@
+{
+  "name": "windtower-modeling-ui",
+  "productName": "WindTower CAE",
+  "description": "面向参数化工程结构的 LLM 辅助有限元自动建模工作台",
+  "author": "WindTower CAE Research Team",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "desktop:dev": "cross-env WINDTOWER_DESKTOP_DEV=1 concurrently --kill-others-on-fail \"vite --host 127.0.0.1 --port 5173 --strictPort\" \"wait-on http://127.0.0.1:5173 && node desktop/run-electron.cjs\"",
+    "desktop:backend:build": "powershell -NoProfile -ExecutionPolicy Bypass -File desktop/build-backend.ps1",
+    "desktop:package": "npm run build && npm run desktop:backend:build && electron-forge package",
+    "desktop:make": "npm run build && npm run desktop:backend:build && electron-forge make",
+    "typecheck": "tsc --noEmit -p tsconfig.json --pretty false",
+    "build": "npm run typecheck && vite build",
+    "check": "npm run build",
+    "test": "vitest run",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.171.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.8.1",
+    "@electron-forge/maker-squirrel": "^7.8.1",
+    "@electron-forge/maker-zip": "^7.8.1",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/three": "^0.171.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^43.2.0",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vitest": "^3.0.5",
+    "wait-on": "^8.0.3"
+  }
+}

@@ -1,0 +1,62 @@
+schema_version: engineering_model_template_v1
+template_id: wind_tower_shell_door_v1
+version: 1.0.0
+model_family: wind_tower
+profile_role: canonical_engineering_template
+selectable: false
+display_name: 风电塔筒整体壳与门洞权威模板
+description: 钢制风电塔筒S4R整体壳模型，支持可选门洞、静力和模态分析。
+fidelity: bounded
+adapter: wind_tower_s4r
+system_settings:
+  element_type: S4R
+  section_type: Shell Section
+  unit_system: mm-N-MPa-tonne-s
+  compiler_mode: legacy_l0_authoritative_shadow_fragments
+supported_analysis_tasks: [static, modal]
+unsupported_features:
+  [linear_buckling, flange_detail, bolts, contact, fatigue, nonlinear]
+prompt_instructions: >-
+  只提取当前风电塔筒整体壳模型注册的工程参数。不得创建任意IR字段、
+  Abaqus关键字或建模规则。未知工程概念必须进入unsupported_candidates。
+parameters:
+  - {key: geometry.tower_sections, label: 塔筒分段, group: geometry, type: collection, unit: mm, requirement: required, consumers: [tower_shell, mesh_and_sets]}
+  - {key: geometry.door.enabled, label: 启用门洞, group: geometry, type: boolean, requirement: required, consumers: [door_opening]}
+  - {key: geometry.door.width_mm, label: 门洞宽度, group: geometry, type: number, unit: mm, requirement: conditional_required, active_when: geometry.door.enabled, consumers: [door_opening]}
+  - {key: geometry.door.height_mm, label: 门洞高度, group: geometry, type: number, unit: mm, requirement: conditional_required, active_when: geometry.door.enabled, consumers: [door_opening]}
+  - {key: geometry.door.bottom_z_mm, label: 门洞底标高, group: geometry, type: number, unit: mm, requirement: conditional_required, active_when: geometry.door.enabled, consumers: [door_opening]}
+  - {key: geometry.door.theta_center_deg, label: 门洞方向, group: geometry, type: number, unit: deg, requirement: defaultable, default: 0, consumers: [door_opening]}
+  - {key: geometry.door.corner_radius_mm, label: 门洞圆角, group: geometry, type: number, unit: mm, requirement: degradable, fallback: rectangular_opening, consumers: [door_opening]}
+  - {key: geometry.door.reinforcement_enabled, label: 启用门洞加强圈, group: geometry, type: boolean, requirement: defaultable, default: false, consumers: [door_opening, material_section]}
+  - {key: geometry.door.outer_width_mm, label: 加强圈外宽, group: geometry, type: number, unit: mm, requirement: conditional_required, active_when: geometry.door.reinforcement_enabled, consumers: [door_opening, mesh_and_sets]}
+  - {key: geometry.door.outer_height_mm, label: 加强圈外高, group: geometry, type: number, unit: mm, requirement: conditional_required, active_when: geometry.door.reinforcement_enabled, consumers: [door_opening, mesh_and_sets]}
+  - {key: geometry.door.frame_thickness_mm, label: 加强圈厚度, group: geometry, type: number, unit: mm, requirement: conditional_required, active_when: geometry.door.reinforcement_enabled, consumers: [material_section]}
+  - {key: geometry.door.reinforcement_material, label: 加强圈材料, group: geometry, type: string, requirement: conditional_required, active_when: geometry.door.reinforcement_enabled, consumers: [material_section]}
+  - {key: material.name, label: 材料名称, group: material, type: string, requirement: required, consumers: [material_section]}
+  - {key: material.elastic_modulus_mpa, label: 弹性模量, group: material, type: number, unit: MPa, requirement: required, consumers: [material_section]}
+  - {key: material.poisson_ratio, label: 泊松比, group: material, type: number, requirement: required, consumers: [material_section]}
+  - {key: material.density, label: 密度, group: material, type: number, unit: tonne/mm3, requirement: conditional_required, active_when: analysis.modal_enabled, consumers: [material_section, modal_step]}
+  - {key: material.yield_strength_mpa, label: 屈服强度, group: material, type: number, unit: MPa, requirement: optional, consumers: [material_section]}
+  - {key: mesh.global_size_mm, label: 全局网格尺寸, group: mesh, type: number, unit: mm, requirement: required, consumers: [mesh_and_sets]}
+  - {key: mesh.door_size_mm, label: 门洞局部网格, group: mesh, type: number, unit: mm, requirement: alternative, fallback: mesh.global_size_mm, consumers: [mesh_and_sets]}
+  - {key: mesh.patch_margin_u_mm, label: 门洞环向过渡范围, group: mesh, type: number, unit: mm, requirement: defaultable, consumers: [mesh_and_sets]}
+  - {key: mesh.patch_margin_z_mm, label: 门洞高度向过渡范围, group: mesh, type: number, unit: mm, requirement: defaultable, consumers: [mesh_and_sets]}
+  - {key: mesh.hole_layers, label: 门洞细化层数, group: mesh, type: integer, requirement: defaultable, consumers: [mesh_and_sets]}
+  - {key: loads.top_mass_tonne, label: 顶部质量, group: loads, type: number, unit: tonne, requirement: conditional_required, active_when: analysis.modal_enabled, consumers: [top_mass, modal_step]}
+  - {key: loads.top_horizontal_force_n, label: 顶部水平力, group: loads, type: number, unit: N, requirement: conditional_required, active_when: analysis.static_enabled, consumers: [static_step]}
+  - {key: loads.top_force_direction, label: 顶部力方向, group: loads, type: enum, values: [+X, -X, +Y, -Y, +Z, -Z], requirement: conditional_required, active_when: analysis.static_enabled, consumers: [static_step]}
+  - {key: loads.wind_pressure_mpa, label: 风压, group: loads, type: number, unit: MPa, requirement: degradable, fallback: disable_wind_load, consumers: [wind_load, static_step]}
+  - {key: loads.wind_direction_vector, label: 风向矢量, group: loads, type: collection, requirement: alternative, fallback: loads.top_force_direction, consumers: [wind_load, static_step]}
+  - {key: loads.wind_pressure_profile, label: 分段风压, group: loads, type: collection, unit: MPa, requirement: alternative, fallback: loads.wind_pressure_mpa, consumers: [wind_load, static_step]}
+  - {key: loads.top_force_parallel_n, label: 顺风向顶部力, group: loads, type: number, unit: N, requirement: optional, consumers: [static_step]}
+  - {key: loads.top_force_transverse_n, label: 横风向顶部力, group: loads, type: number, unit: N, requirement: optional, consumers: [static_step]}
+  - {key: loads.top_force_vertical_n, label: 顶部竖向力, group: loads, type: number, unit: N, requirement: optional, consumers: [static_step]}
+  - {key: loads.top_moment_roll_nmm, label: 局部滚转矩, group: loads, type: number, unit: Nmm, requirement: optional, consumers: [static_step]}
+  - {key: loads.top_moment_pitch_nmm, label: 局部俯仰矩, group: loads, type: number, unit: Nmm, requirement: optional, consumers: [static_step]}
+  - {key: loads.top_moment_yaw_nmm, label: 偏航矩, group: loads, type: number, unit: Nmm, requirement: optional, consumers: [static_step]}
+  - {key: loads.hub_vertical_offset_mm, label: 轮毂竖向力臂, group: loads, type: number, unit: mm, requirement: optional, consumers: [static_step]}
+  - {key: analysis.static_enabled, label: 静力分析, group: analysis, type: boolean, requirement: required, consumers: [static_step]}
+  - {key: analysis.modal_enabled, label: 模态分析, group: analysis, type: boolean, requirement: required, consumers: [modal_step]}
+  - {key: analysis.modal_modes, label: 模态阶数, group: analysis, type: integer, requirement: conditional_required, active_when: analysis.modal_enabled, consumers: [modal_step]}
+  - {key: boundary.name, label: 底部边界, group: analysis, type: enum, values: [BASE_FIXED], requirement: required, consumers: [boundary]}
+  - {key: analysis.output_fields, label: 输出变量, group: analysis, type: string, requirement: defaultable, default: "U,RF,S,E", consumers: [outputs]}

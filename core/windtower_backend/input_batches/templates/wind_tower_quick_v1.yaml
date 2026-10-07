@@ -1,0 +1,42 @@
+schema_version: engineering_model_template_v1
+template_id: wind_tower_quick_v1
+version: 1.0.0
+model_family: wind_tower
+profile_role: extraction_ui_profile
+engineering_template_id: wind_tower_shell_door_v1
+selectable: true
+display_name: 风塔快速模型
+description: 适合快速建立可检查的整体壳单元风塔模型。
+fidelity: quick
+adapter: wind_tower_s4r
+system_settings:
+  element_type: S4R
+  section_type: Shell Section
+  unit_system: mm-N-MPa-tonne-s
+prompt_instructions: >-
+  提取整体钢制风塔壳模型所需的塔筒分段、门洞、材料、基本网格、载荷、
+  分析类型、模态阶数和底部边界条件。建模目标是有效用户证据。
+  对资料中缺失但可给出合理工程建议的字段，使用 source_kind=llm_suggested，
+  清楚写明 assumption_basis，且不得伪造 evidence_ids。
+parameters:
+  - {key: geometry.tower_sections, label: 塔筒分段, group: geometry, display_tier: primary, type: collection, unit: mm, suggestible: true, preview_required: true}
+  - {key: geometry.door.enabled, label: 是否包含门洞, group: geometry, display_tier: primary, type: boolean, suggestible: true}
+  - {key: geometry.door.width_mm, label: 门洞宽度, group: geometry, display_tier: primary, type: number, unit: mm, suggestible: true}
+  - {key: geometry.door.height_mm, label: 门洞高度, group: geometry, display_tier: primary, type: number, unit: mm, suggestible: true}
+  - {key: geometry.door.bottom_z_mm, label: 门洞底标高, group: geometry, display_tier: primary, type: number, unit: mm, suggestible: true}
+  - {key: geometry.door.theta_center_deg, label: 门洞方向, group: geometry, display_tier: secondary, type: number, unit: deg, suggestible: true}
+  - {key: material.name, label: 材料名称, group: material, display_tier: primary, type: string, suggestible: true}
+  - {key: material.elastic_modulus_mpa, label: 弹性模量, group: material, display_tier: primary, type: number, unit: MPa, suggestible: true}
+  - {key: material.poisson_ratio, label: 泊松比, group: material, display_tier: primary, type: number, suggestible: true}
+  - {key: material.density, label: 密度, group: material, display_tier: primary, type: number, unit: tonne/mm3, suggestible: true}
+  - {key: material.yield_strength_mpa, label: 屈服强度, group: material, display_tier: secondary, type: number, unit: MPa, suggestible: true}
+  - {key: mesh.global_size_mm, label: 整体网格尺寸, group: mesh, display_tier: primary, type: number, unit: mm, suggestible: true}
+  - {key: mesh.door_size_mm, label: 门洞局部网格, group: mesh, display_tier: secondary, type: number, unit: mm, suggestible: true}
+  - {key: loads.top_mass_tonne, label: 顶部质量, group: loads, display_tier: primary, type: number, unit: tonne, suggestible: true}
+  - {key: loads.top_horizontal_force_n, label: 顶部水平力, group: loads, display_tier: primary, type: number, unit: N, suggestible: true}
+  - {key: loads.top_force_direction, label: 水平力方向, group: loads, display_tier: primary, type: string, suggestible: true}
+  - {key: loads.wind_pressure_mpa, label: 风压, group: loads, display_tier: primary, type: number, unit: MPa, suggestible: true}
+  - {key: analysis.static_enabled, label: 静力分析, group: analysis, display_tier: primary, type: boolean, suggestible: true}
+  - {key: analysis.modal_enabled, label: 模态分析, group: analysis, display_tier: primary, type: boolean, suggestible: true}
+  - {key: analysis.modal_modes, label: 模态阶数, group: analysis, display_tier: secondary, type: integer, suggestible: true}
+  - {key: boundary.name, label: 底部边界条件, group: analysis, display_tier: secondary, type: string, suggestible: true}

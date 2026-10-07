@@ -1,0 +1,21 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+python-dotenv>=1.0.1
+pydantic>=2.7.0
+requests>=2.31.0
+xlrd>=2.0.1
+openpyxl>=3.0.7
+gmsh>=4.13.0
+eval_type_backport>=0.4.0
+pyvista>=0.44.0
+PyMuPDF>=1.24.0
+python-docx>=1.1.0
+python-pptx>=1.0.0
+PyYAML>=6.0.0
+Pillow>=10.0.0
+trame>=3.0.0
+trame-server==3.2.3
+trame-vtk>=2.8.0
+trame-vuetify>=2.7.0
+# trame-pyvista is optional and not published for the current Python 3.8 runtime.
